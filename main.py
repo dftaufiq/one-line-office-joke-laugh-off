@@ -42,6 +42,11 @@ def check_written(path, line):
     """Read the file back: it must be byte-for-byte the entry line."""
     with open(path, "r", encoding="utf-8") as handle:
         written = handle.read()
+    if written.endswith("\n") or written.endswith("\r"):
+        print(
+            "ERROR: %s must not end with a newline" % path, file=sys.stderr
+        )
+        sys.exit(1)
     if written != line:
         print(
             "ERROR: %s holds %d chars, expected %d"
